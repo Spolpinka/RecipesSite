@@ -19,7 +19,4 @@ public class RecipesServiceImpl implements RecipesService {
     public Recipe getRecipe(int id) {
         return recipes.get(id);
     }
-
-    public static class IngredientServiceImpl implements IngredientService {
-    }
 }
