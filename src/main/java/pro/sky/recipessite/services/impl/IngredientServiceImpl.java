@@ -13,13 +13,10 @@ public class IngredientServiceImpl implements IngredientService {
     private static Map<Integer, Ingredient> ingredients = new HashMap<>();
 
     @Override
-    public int addIngredient(Ingredient ingredient) throws IngredientIsNullException {
-        if (ingredient != null) {
-            ingredients.put(++id, ingredient);
+    public int addIngredient(String name, int quantity, String volume){
+            ingredients.put(++id, new Ingredient(name, quantity, volume));
             return id;
-        } else {
-            throw new IngredientIsNullException("Переданный ингридиент - null");
-        }
+
     }
 
     @Override

@@ -7,7 +7,8 @@ import pro.sky.recipessite.services.impl.exceptions.IngredientIsNullException;
 
 @Service
 public interface IngredientService {
-    int addIngredient(Ingredient ingredient) throws IngredientIsNullException;
+
+    int addIngredient(String name, int quantity, String volume);
 
     Ingredient getIngredient(int id) throws IdIsIncorrectException;
 }
