@@ -4,7 +4,6 @@ import org.springframework.stereotype.Service;
 import pro.sky.recipessite.model.Ingredient;
 import pro.sky.recipessite.services.IngredientService;
 import pro.sky.recipessite.services.impl.exceptions.IdIsIncorrectException;
-import pro.sky.recipessite.services.impl.exceptions.IngredientIsNullException;
 
 import java.util.HashMap;
 import java.util.Map;

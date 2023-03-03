@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RestController;
 import pro.sky.recipessite.model.Ingredient;
 import pro.sky.recipessite.services.IngredientService;
 import pro.sky.recipessite.services.impl.exceptions.IdIsIncorrectException;
-import pro.sky.recipessite.services.impl.exceptions.IngredientIsNullException;
 
 @RestController
 @RequestMapping("/ingres")
@@ -24,12 +23,11 @@ public class IngredientController {
     }
 
     @GetMapping("/getIngredient")
-    public Ingredient getIngredient(@RequestParam int id) {
+    public Ingredient getIngredient(@RequestParam int id) throws IdIsIncorrectException {
         try {
             return ingredientService.getIngredient(id);
         } catch (IdIsIncorrectException e) {
-            System.out.println("Переданный id меньше 0 или не существует!");
-            return null;
+            throw new IdIsIncorrectException("нет такого id!");
         }
     }
 }

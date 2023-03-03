@@ -26,12 +26,11 @@ public class RecipeController {
     }
 
     @GetMapping("/getRecipe")
-    public Recipe getRecipe(@RequestParam int id) {
+    public Recipe getRecipe(@RequestParam int id) throws IdIsIncorrectException {
         try {
             return recipesService.getRecipe(id);
         } catch (IdIsIncorrectException e) {
-            System.out.println(e);
-            return null;
+            throw new IdIsIncorrectException("Нет такого id!");
         }
     }
 }
