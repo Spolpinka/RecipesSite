@@ -18,7 +18,7 @@ public class IngredientController {
         this.ingredientService = ingredientService;
     }
 
-    @GetMapping("/addIngedient")
+    @GetMapping("/addIngredient")
     public String addIngredient(@RequestParam String name, @RequestParam int quantity, @RequestParam String volume){
         return "Идентификатор добавленного ингридиента - " + ingredientService.addIngredient(name, quantity, volume);
     }

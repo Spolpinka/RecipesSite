@@ -1,5 +1,6 @@
 package pro.sky.recipessite.services.impl;
 
+import org.springframework.stereotype.Service;
 import pro.sky.recipessite.model.Ingredient;
 import pro.sky.recipessite.model.Recipe;
 import pro.sky.recipessite.services.RecipesService;
@@ -9,7 +10,7 @@ import pro.sky.recipessite.services.impl.exceptions.RecipeIsNullException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+@Service
 public class RecipesServiceImpl implements RecipesService {
     private static int id = 0;
     private static Map<Integer, Recipe> recipes = new HashMap<>();

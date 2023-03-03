@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class MainController {
     @GetMapping
     public String mainMethod() {
-        return "Приложение запущено";
+        return "Приложение \"Сайт рецептов\" запущено";
     }
 
     @GetMapping("info")
