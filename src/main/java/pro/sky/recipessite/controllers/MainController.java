@@ -12,7 +12,7 @@ public class MainController {
 
     @GetMapping("info")
     public String info() {
-        return "Имя: Яна Сироткина\n\n" +
+        return "Имя: Яна Сироткина\n" +
                 "Название проекта: \"Рецептурная\"" + "\n" +
                 "Дата создания проекта: 24 Feb 2023" + "\n" +
                 "Описание: онлайн каталог рецептов";

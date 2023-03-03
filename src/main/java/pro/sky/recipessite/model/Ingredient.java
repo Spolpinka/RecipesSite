@@ -7,6 +7,6 @@ import lombok.Data;
 @AllArgsConstructor
 public class Ingredient {
     private String name;
-    private int volume;
-    private String pcs;
+    private int quantity;
+    private String volume;
 }
