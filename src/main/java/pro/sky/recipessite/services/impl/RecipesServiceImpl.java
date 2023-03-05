@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 import pro.sky.recipessite.model.Ingredient;
 import pro.sky.recipessite.model.Recipe;
 import pro.sky.recipessite.services.RecipesService;
-import pro.sky.recipessite.services.impl.exceptions.IdIsIncorrectException;
+import pro.sky.recipessite.controllers.exceptions.IdIsIncorrectException;
 
 import java.util.HashMap;
 import java.util.List;
@@ -19,11 +19,11 @@ public class RecipesServiceImpl implements RecipesService {
         return id;
     }
     @Override
-    public Recipe getRecipe(int id) throws IdIsIncorrectException {
-        if (id >= 0 && recipes.containsKey(id)) {
+    public Recipe getRecipe(int id){
             return recipes.get(id);
-        } else {
-            throw new IdIsIncorrectException("Переданный id меньше ноля или не существует!");
-        }
+    }
+@Override
+    public boolean isRecipesContainsId(int id) {
+        return recipes.containsKey(id);
     }
 }

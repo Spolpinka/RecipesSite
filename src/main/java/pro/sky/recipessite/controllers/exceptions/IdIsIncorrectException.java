@@ -1,4 +1,4 @@
-package pro.sky.recipessite.services.impl.exceptions;
+package pro.sky.recipessite.controllers.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

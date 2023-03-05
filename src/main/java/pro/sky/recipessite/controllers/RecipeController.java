@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 import pro.sky.recipessite.model.Ingredient;
 import pro.sky.recipessite.model.Recipe;
 import pro.sky.recipessite.services.RecipesService;
-import pro.sky.recipessite.services.impl.exceptions.IdIsIncorrectException;
+import pro.sky.recipessite.controllers.exceptions.IdIsIncorrectException;
 
 import java.util.List;
 
@@ -27,9 +27,9 @@ public class RecipeController {
 
     @GetMapping("/getRecipe")
     public Recipe getRecipe(@RequestParam int id) throws IdIsIncorrectException {
-        try {
+        if (id >= 0 && recipesService.isRecipesContainsId(id) ){
             return recipesService.getRecipe(id);
-        } catch (IdIsIncorrectException e) {
+        } else {
             throw new IdIsIncorrectException("Нет такого id!");
         }
     }
