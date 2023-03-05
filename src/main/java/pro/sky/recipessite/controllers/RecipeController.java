@@ -30,7 +30,7 @@ public class RecipeController {
         if (id >= 0 && recipesService.isRecipesContainsId(id) ){
             return recipesService.getRecipe(id);
         } else {
-            throw new IdIsIncorrectException("Нет такого id!");
+            throw new IdIsIncorrectException("нет такого id или введенный id меньше 0!");
         }
     }
 }
