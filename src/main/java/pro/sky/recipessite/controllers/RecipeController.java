@@ -76,9 +76,29 @@ public class RecipeController {
         }
     }
 
+
+    /**
+     * 10. получение списка всех рецептов
+     * @return ArrayList рецептов
+     */
     @GetMapping
     public ResponseEntity<ArrayList<Recipe>> getAllRecipes() {
         ArrayList<Recipe> recipes = recipesService.getAllRecipes();
+        if (recipes != null) {
+            return ResponseEntity.ok(recipes);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    /**
+     * 11. поиск рецептов по id ингридиента
+     * @param id из URL
+     * @return ArrayList рецептов
+     */
+    @GetMapping("/getRecipesByIngredientsId/{id}")
+    public ResponseEntity<ArrayList<Recipe>> getRecipesByIngredientsId(@PathVariable int id) {
+        ArrayList<Recipe> recipes = recipesService.getRecipesByIngredientsId(id);
         if (recipes != null) {
             return ResponseEntity.ok(recipes);
         } else {

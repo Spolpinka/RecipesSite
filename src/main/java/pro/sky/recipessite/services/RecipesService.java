@@ -21,4 +21,6 @@ public interface RecipesService {
     ArrayList<Recipe> getAllRecipes();
 
     boolean isRecipesContainsId(int id);
+
+    ArrayList<Recipe> getRecipesByIngredientsId(int id);
 }

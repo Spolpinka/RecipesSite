@@ -50,4 +50,15 @@ public class RecipesServiceImpl implements RecipesService {
     public boolean isRecipesContainsId(int id) {
         return recipes.containsKey(id);
     }
+
+    @Override
+    public ArrayList<Recipe> getRecipesByIngredientsId(int id) {
+        ArrayList<Recipe> recipesById = new ArrayList<>();
+        for (Recipe recipe : recipes.values()) {
+            if (recipe.getIngredients().contains(IngredientServiceImpl.getIngredientById(id))) {
+                recipesById.add(recipe);
+            }
+        }
+        return recipesById;
+    }
 }
