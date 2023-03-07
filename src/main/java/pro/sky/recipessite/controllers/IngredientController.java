@@ -1,34 +1,90 @@
 package pro.sky.recipessite.controllers;
 
-import com.fasterxml.jackson.databind.exc.MismatchedInputException;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import pro.sky.recipessite.model.Ingredient;
 import pro.sky.recipessite.services.IngredientService;
 import pro.sky.recipessite.controllers.exceptions.IdIsIncorrectException;
 
+import java.util.ArrayList;
+
 @RestController
-@RequestMapping("/ingres")
+@RequestMapping("/ingredients")
 public class IngredientController {
-    private IngredientService ingredientService;
+    private final IngredientService ingredientService;
 
     public IngredientController(IngredientService ingredientService) {
         this.ingredientService = ingredientService;
     }
 
-    @GetMapping("/addIngredient")
-    public String addIngredient(@RequestParam String name, @RequestParam int quantity, @RequestParam String volume){
-        return "Идентификатор добавленного ингридиента - " + ingredientService.addIngredient(name, quantity, volume);
+    /**
+     * 1. добавление ингредиента, соответствующий ингредиент приходит в формате Json в теле запроса
+     *
+     * @param ingredient из тела запроса
+     * @return ResponseEntity</ строка>
+     */
+    @PutMapping("/addIngredient")
+    public ResponseEntity<String> addIngredient(@RequestBody Ingredient ingredient) {
+        return ResponseEntity.ok("Идентификатор добавленного ингридиента - " +
+                ingredientService.addIngredient(ingredient));
     }
 
-    @GetMapping("/getIngredient")
-    public Ingredient getIngredient(@RequestParam int id) throws IdIsIncorrectException {
-        if (id < 0 && ingredientService.isIngresContainsId(id)){
+    /**
+     * 2. редактирование ингредиента
+     *
+     * @param id         из URL
+     * @param ingredient из тела запроса
+     * @return ингридиент (объект)
+     */
+    @PostMapping("/editIngredient/{id}")
+    public ResponseEntity<Ingredient> editIngredientById(@PathVariable int id, @RequestBody Ingredient ingredient) {
+        Ingredient newIngredient = ingredientService.editIngredientById(id, ingredient);
+        if (newIngredient != null) {
+            return ResponseEntity.ok(newIngredient);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    /**
+     * 3. удаление ингридента по id
+     *
+     * @param id из URL
+     * @return удаленный ингредиент
+     */
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Ingredient> deleteIngredientById(@PathVariable int id) {
+        Ingredient ingredient = ingredientService.deleteIngredientById(id);
+        if (ingredient != null) {
+            return ResponseEntity.ok(ingredient);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    /**
+     * 4. получение информации об ингрединте по id
+     *
+     * @param id из URL
+     * @return ингридиент
+     * @throws IdIsIncorrectException проверка id на входе
+     */
+    @GetMapping("/getIngredient/{id}")
+    public Ingredient getIngredient(@PathVariable int id) throws IdIsIncorrectException {
+        if (id < 0 && ingredientService.isIngresContainsId(id)) {
             return ingredientService.getIngredient(id);
         } else {
             throw new IdIsIncorrectException("нет такого id или введенный id меньше 0!");
         }
+    }
+
+    /**
+     * 5. получение полного списка ингредиентов
+     * @return ArrayList всех ингредиентов
+     */
+    @GetMapping()
+    public ResponseEntity<ArrayList<Ingredient>> getAllIngredients() {
+        ArrayList<Ingredient> ingredients = ingredientService.getAllIngredients();
+        return ResponseEntity.ok(ingredients);
     }
 }
