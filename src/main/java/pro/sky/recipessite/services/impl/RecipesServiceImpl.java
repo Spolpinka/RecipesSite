@@ -10,12 +10,17 @@ import java.util.*;
 @Service
 public class RecipesServiceImpl implements RecipesService {
     private static int id = 0;
+    IngredientServiceImpl ingredientService = new IngredientServiceImpl();
+
     private static Map<Integer, Recipe> recipes = new HashMap<>();
     @Override
     public String addRecipe(Recipe[] newRecipes) {
         String ids = "";
         for (Recipe recipe: newRecipes) {
             recipes.put(++id, recipe);
+            for (Ingredient ingredient : recipe.getIngredients()) {
+                ingredientService.addIngredient(ingredient);
+            }
             ids += id + ", ";
         }
         return ids;
@@ -58,7 +63,6 @@ public class RecipesServiceImpl implements RecipesService {
     @Override
     public Collection<Recipe> getRecipesByIngredientsId(int id) {
         Collection<Recipe> recipesById = new ArrayList<>();
-        IngredientServiceImpl ingredientService = new IngredientServiceImpl();
         for (Recipe recipe : recipes.values()) {
             for (Ingredient ingredient : recipe.getIngredients()) {
                 if (ingredient.getName().equals(ingredientService.getIngredient(id).getName())) {
