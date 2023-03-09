@@ -14,22 +14,21 @@ import java.util.List;
 @RestController
 @RequestMapping("/recipe")
 public class RecipeController {
-    private RecipesService recipesService;
+    private final RecipesService recipesService;
 
     public RecipeController(RecipesService recipesService) {
         this.recipesService = recipesService;
     }
 
     /**
-     * 6. добавление рецепта
-     *
-     * @param recipe из тебя запроса
-     * @return строка с номером присвоенного id
+     * 6. добавление рецептов
+     * @param recipes из тела запроса
+     * @return строку с идентификаторами добавленных рецептов
      */
     @PostMapping("/addRecipe")
-    public ResponseEntity<String> addRecipe(@RequestBody Recipe recipe) {
-        return ResponseEntity.ok("Идентификатор добавленного рецепта - " +
-                recipesService.addRecipe(recipe));
+    public ResponseEntity<String> addRecipe(@RequestBody Recipe... recipes) {
+        return ResponseEntity.ok("Идентификаторы добавленных рецептов - " +
+                recipesService.addRecipe(recipes));
     }
 
     /**
@@ -70,7 +69,7 @@ public class RecipeController {
      *
      * @param id из URL
      * @return полученный рецепт
-     * @throws IdIsIncorrectException
+     * @throws IdIsIncorrectException выкидываем исключение не доходя до сервиса
      */
     @GetMapping("/{id}")
     public ResponseEntity<Recipe> getRecipe(@PathVariable int id) throws IdIsIncorrectException {

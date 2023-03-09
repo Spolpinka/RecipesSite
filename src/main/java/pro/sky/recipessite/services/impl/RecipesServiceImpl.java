@@ -12,9 +12,13 @@ public class RecipesServiceImpl implements RecipesService {
     private static int id = 0;
     private static Map<Integer, Recipe> recipes = new HashMap<>();
     @Override
-    public int addRecipe(Recipe recipe) {
-        recipes.put(++id, recipe);
-        return id;
+    public String addRecipe(Recipe[] newRecipes) {
+        String ids = "";
+        for (Recipe recipe: newRecipes) {
+            recipes.put(++id, recipe);
+            ids += id + ", ";
+        }
+        return ids;
     }
 
     @Override
@@ -54,9 +58,12 @@ public class RecipesServiceImpl implements RecipesService {
     @Override
     public ArrayList<Recipe> getRecipesByIngredientsId(int id) {
         ArrayList<Recipe> recipesById = new ArrayList<>();
+        IngredientServiceImpl ingredientService = new IngredientServiceImpl();
         for (Recipe recipe : recipes.values()) {
-            if (recipe.getIngredients().contains(IngredientServiceImpl.getIngredientById(id))) {
-                recipesById.add(recipe);
+            for (Ingredient ingredient : recipe.getIngredients()) {
+                if (ingredient.getName().equals(ingredientService.getIngredient(id).getName())) {
+                    recipesById.add(recipe);
+                }
             }
         }
         return recipesById;
