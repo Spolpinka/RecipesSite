@@ -4,11 +4,14 @@ import org.springframework.stereotype.Service;
 import pro.sky.recipessite.model.Ingredient;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 @Service
 public interface IngredientService {
 
     int addIngredient(Ingredient ingredient);
+
+    String addIngredientArray(Ingredient[] newIngredients);
 
     Ingredient editIngredientById(int id, Ingredient ingredient);
 
@@ -16,7 +19,7 @@ public interface IngredientService {
 
     Ingredient getIngredient(int id);
 
-    ArrayList<Ingredient> getAllIngredients();
+    Collection<Ingredient> getAllIngredients();
 
     boolean isIngresContainsId(int id);
 

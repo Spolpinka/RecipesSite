@@ -8,6 +8,7 @@ import pro.sky.recipessite.services.RecipesService;
 import pro.sky.recipessite.controllers.exceptions.IdIsIncorrectException;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -87,8 +88,8 @@ public class RecipeController {
      * @return ArrayList рецептов
      */
     @GetMapping
-    public ResponseEntity<ArrayList<Recipe>> getAllRecipes() {
-        ArrayList<Recipe> recipes = recipesService.getAllRecipes();
+    public ResponseEntity<Collection<Recipe>> getAllRecipes() {
+        Collection<Recipe> recipes = recipesService.getAllRecipes();
         if (recipes != null) {
             return ResponseEntity.ok(recipes);
         } else {
@@ -100,11 +101,11 @@ public class RecipeController {
      * 11. поиск рецептов по id ингридиента
      *
      * @param id из URL
-     * @return ArrayList рецептов
+     * @return Collection рецептов
      */
     @GetMapping("/getRecipesByIngredientsId/{id}")
-    public ResponseEntity<ArrayList<Recipe>> getRecipesByIngredientsId(@PathVariable int id) {
-        ArrayList<Recipe> recipes = recipesService.getRecipesByIngredientsId(id);
+    public ResponseEntity<Collection<Recipe>> getRecipesByIngredientsId(@PathVariable int id) {
+        Collection<Recipe> recipes = recipesService.getRecipesByIngredientsId(id);
         if (recipes != null) {
             return ResponseEntity.ok(recipes);
         } else {

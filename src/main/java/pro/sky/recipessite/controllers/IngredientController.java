@@ -6,7 +6,7 @@ import pro.sky.recipessite.model.Ingredient;
 import pro.sky.recipessite.services.IngredientService;
 import pro.sky.recipessite.controllers.exceptions.IdIsIncorrectException;
 
-import java.util.ArrayList;
+import java.util.Collection;
 
 @RestController
 @RequestMapping("/ingredients")
@@ -23,20 +23,31 @@ public class IngredientController {
      * @param ingredient из тела запроса
      * @return ResponseEntity</ строка>
      */
-    @PutMapping("/addIngredient")
+    @PostMapping("/addIngredient")
     public ResponseEntity<String> addIngredient(@RequestBody Ingredient ingredient) {
         return ResponseEntity.ok("Идентификатор добавленного ингридиента - " +
                 ingredientService.addIngredient(ingredient));
     }
 
     /**
+     * 1.1. ввод ингредиентов массивом
+     * @param ingredients массив из тела запроса
+     * @return строку с идентификаторами
+     */
+    @PostMapping("/addIngredientArray")
+    public ResponseEntity<String> addIngredientArray(@RequestBody Ingredient... ingredients) {
+        return ResponseEntity.ok("Идентификатор добавленного ингридиента - " +
+                ingredientService.addIngredientArray(ingredients));
+    }
+
+    /**
      * 2. редактирование ингредиента
      *
-     * @param id         из URL
+     * @param id из URL
      * @param ingredient из тела запроса
      * @return ингридиент (объект)
      */
-    @PostMapping("/editIngredient/{id}")
+    @PutMapping("/editIngredient/{id}")
     public ResponseEntity<Ingredient> editIngredientById(@PathVariable int id, @RequestBody Ingredient ingredient) {
         Ingredient newIngredient = ingredientService.editIngredientById(id, ingredient);
         if (newIngredient != null) {
@@ -69,9 +80,9 @@ public class IngredientController {
      * @return ингридиент
      * @throws IdIsIncorrectException проверка id на входе
      */
-    @GetMapping("/getIngredient/{id}")
+    @GetMapping("/{id}")
     public Ingredient getIngredient(@PathVariable int id) throws IdIsIncorrectException {
-        if (id < 0 && ingredientService.isIngresContainsId(id)) {
+        if (id > 0 && ingredientService.isIngresContainsId(id)) {
             return ingredientService.getIngredient(id);
         } else {
             throw new IdIsIncorrectException("нет такого id или введенный id меньше 0!");
@@ -83,8 +94,8 @@ public class IngredientController {
      * @return ArrayList всех ингредиентов
      */
     @GetMapping()
-    public ResponseEntity<ArrayList<Ingredient>> getAllIngredients() {
-        ArrayList<Ingredient> ingredients = ingredientService.getAllIngredients();
+    public ResponseEntity<Collection<Ingredient>> getAllIngredients() {
+        Collection<Ingredient> ingredients = ingredientService.getAllIngredients();
         return ResponseEntity.ok(ingredients);
     }
 }

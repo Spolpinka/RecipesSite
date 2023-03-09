@@ -5,6 +5,7 @@ import pro.sky.recipessite.model.Ingredient;
 import pro.sky.recipessite.services.IngredientService;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,6 +18,15 @@ public class IngredientServiceImpl implements IngredientService {
     public int addIngredient(Ingredient ingredient) {
         ingredients.put(++id, ingredient);
         return id;
+    }
+    @Override
+    public String addIngredientArray(Ingredient[] newIngredients) {
+        String ids = "";
+        for (Ingredient ingredient : newIngredients) {
+            ingredients.put(++id, ingredient);
+            ids += id + ", ";
+        }
+        return ids;
     }
 
     @Override
@@ -43,8 +53,8 @@ public class IngredientServiceImpl implements IngredientService {
     }
 
     @Override
-    public ArrayList<Ingredient> getAllIngredients() {
-        return (ArrayList<Ingredient>)(ingredients.values());
+    public Collection<Ingredient> getAllIngredients() {
+        return ingredients.values();
     }
 
     @Override

@@ -46,8 +46,8 @@ public class RecipesServiceImpl implements RecipesService {
     }
 
     @Override
-    public ArrayList<Recipe> getAllRecipes() {
-        return (ArrayList<Recipe>) (recipes.values());
+    public Collection<Recipe> getAllRecipes() {
+        return (recipes.values());
     }
 
     @Override
@@ -56,8 +56,8 @@ public class RecipesServiceImpl implements RecipesService {
     }
 
     @Override
-    public ArrayList<Recipe> getRecipesByIngredientsId(int id) {
-        ArrayList<Recipe> recipesById = new ArrayList<>();
+    public Collection<Recipe> getRecipesByIngredientsId(int id) {
+        Collection<Recipe> recipesById = new ArrayList<>();
         IngredientServiceImpl ingredientService = new IngredientServiceImpl();
         for (Recipe recipe : recipes.values()) {
             for (Ingredient ingredient : recipe.getIngredients()) {
@@ -87,13 +87,14 @@ public class RecipesServiceImpl implements RecipesService {
         int countOfPages = 1;//счетчик для страниц
         if (recipes != null || recipes.isEmpty()) {
             LinkedHashMap<Integer, List<Recipe>> result = new LinkedHashMap<>();
-            Recipe[] recipesValues = (Recipe[]) recipes.values().toArray();
+            List<Recipe> recipesValues = recipes.values().stream().toList();
             List<Recipe> tempList = new ArrayList<>(countOfPcs);
-            for (int i = 0; i < recipesValues.length; i++) {
-                tempList.add(recipesValues[i]);
-                if (tempList.size() == 10){
-                    result.put(countOfPages++, tempList);
+            for (int i = 0; i < recipesValues.size(); i++) {
+                tempList.add(recipesValues.get(i));
+                if (tempList.size() == countOfPcs){
+                    result.put(countOfPages, tempList);
                     tempList = new ArrayList<>(countOfPcs);
+                    countOfPages++;
                 }
             }
             return result;

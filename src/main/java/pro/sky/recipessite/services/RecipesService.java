@@ -5,6 +5,7 @@ import pro.sky.recipessite.model.Ingredient;
 import pro.sky.recipessite.model.Recipe;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -18,11 +19,11 @@ public interface RecipesService {
 
     Recipe getRecipe(int id);
 
-    ArrayList<Recipe> getAllRecipes();
+    Collection<Recipe> getAllRecipes();
 
     boolean isRecipesContainsId(int id);
 
-    ArrayList<Recipe> getRecipesByIngredientsId(int id);
+    Collection<Recipe> getRecipesByIngredientsId(int id);
 
     List<Recipe> getRecipesBySeveralIngredients(Ingredient[] ingredients);
 
