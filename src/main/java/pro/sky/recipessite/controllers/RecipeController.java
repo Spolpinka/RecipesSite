@@ -8,6 +8,7 @@ import pro.sky.recipessite.services.RecipesService;
 import pro.sky.recipessite.controllers.exceptions.IdIsIncorrectException;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 @RestController
@@ -21,6 +22,7 @@ public class RecipeController {
 
     /**
      * 6. добавление рецепта
+     *
      * @param recipe из тебя запроса
      * @return строка с номером присвоенного id
      */
@@ -32,7 +34,8 @@ public class RecipeController {
 
     /**
      * 7. редактирование рецепта по id
-     * @param id из URL
+     *
+     * @param id     из URL
      * @param recipe из тела запроса
      * @return новый рецепт
      */
@@ -48,6 +51,7 @@ public class RecipeController {
 
     /**
      * 8. удаление рецепта по id
+     *
      * @param id из URL
      * @return удаленный рецепт
      */
@@ -63,13 +67,14 @@ public class RecipeController {
 
     /**
      * 9. получение рецепта по id
+     *
      * @param id из URL
      * @return полученный рецепт
      * @throws IdIsIncorrectException
      */
     @GetMapping("/{id}")
     public ResponseEntity<Recipe> getRecipe(@PathVariable int id) throws IdIsIncorrectException {
-        if (id >= 0 && recipesService.isRecipesContainsId(id) ){
+        if (id >= 0 && recipesService.isRecipesContainsId(id)) {
             return ResponseEntity.ok(recipesService.getRecipe(id));
         } else {
             throw new IdIsIncorrectException("нет такого id или введенный id меньше 0!");
@@ -79,6 +84,7 @@ public class RecipeController {
 
     /**
      * 10. получение списка всех рецептов
+     *
      * @return ArrayList рецептов
      */
     @GetMapping
@@ -93,6 +99,7 @@ public class RecipeController {
 
     /**
      * 11. поиск рецептов по id ингридиента
+     *
      * @param id из URL
      * @return ArrayList рецептов
      */
@@ -101,6 +108,34 @@ public class RecipeController {
         ArrayList<Recipe> recipes = recipesService.getRecipesByIngredientsId(id);
         if (recipes != null) {
             return ResponseEntity.ok(recipes);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    /**
+     * 12. поиск рецептов по нескольким ингридиентам
+     *
+     * @param ingredients принимаем из тела запроса
+     * @return список рецептов
+     */
+    @GetMapping("/getRecipesBySeveralIngredients/")
+    public ResponseEntity<List<Recipe>> getRecipesBySeveralIngredients(@RequestBody Ingredient... ingredients) {
+        if (recipesService.getRecipesBySeveralIngredients(ingredients) != null) {
+            return ResponseEntity.ok(recipesService.getRecipesBySeveralIngredients(ingredients));
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    /**
+     * 13. вывод рецептов по 10 штук на странице
+     * @return LinkedHashMap, где ключ - номер страницы, значение - список из 10 рецептов
+     */
+    @GetMapping("/getAllRecipesBy10pcs")
+    public ResponseEntity<LinkedHashMap<Integer, List<Recipe>>> getAllRecipesBy10pcs() {
+        if (recipesService.getAllRecipesBy10pcs() != null) {
+            return ResponseEntity.ok(recipesService.getAllRecipesBy10pcs());
         } else {
             return ResponseEntity.notFound().build();
         }

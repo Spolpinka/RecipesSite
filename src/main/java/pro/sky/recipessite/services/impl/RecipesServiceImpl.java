@@ -1,12 +1,12 @@
 package pro.sky.recipessite.services.impl;
 
 import org.springframework.stereotype.Service;
+import pro.sky.recipessite.model.Ingredient;
 import pro.sky.recipessite.model.Recipe;
 import pro.sky.recipessite.services.RecipesService;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+
 @Service
 public class RecipesServiceImpl implements RecipesService {
     private static int id = 0;
@@ -60,5 +60,38 @@ public class RecipesServiceImpl implements RecipesService {
             }
         }
         return recipesById;
+    }
+
+    @Override
+    public List<Recipe> getRecipesBySeveralIngredients(Ingredient[] ingredients) {
+        List<Recipe> result = new ArrayList<>();
+        List<Ingredient> ingrsForSeaching = Arrays.stream(ingredients).toList();
+        for (Recipe recipe : recipes.values()) {
+            if (recipe.getIngredients().containsAll(ingrsForSeaching)){
+                result.add(recipe);
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public LinkedHashMap<Integer, List<Recipe>> getAllRecipesBy10pcs() {
+        int countOfPcs = 10;//количество рецептов на странице
+        int countOfPages = 1;//счетчик для страниц
+        if (recipes != null || recipes.isEmpty()) {
+            LinkedHashMap<Integer, List<Recipe>> result = new LinkedHashMap<>();
+            Recipe[] recipesValues = (Recipe[]) recipes.values().toArray();
+            List<Recipe> tempList = new ArrayList<>(countOfPcs);
+            for (int i = 0; i < recipesValues.length; i++) {
+                tempList.add(recipesValues[i]);
+                if (tempList.size() == 10){
+                    result.put(countOfPages++, tempList);
+                    tempList = new ArrayList<>(countOfPcs);
+                }
+            }
+            return result;
+        } else {
+            return null;
+        }
     }
 }
