@@ -74,10 +74,11 @@ public class RecipeController {
      */
     @GetMapping("/{id}")
     public ResponseEntity<Recipe> getRecipe(@PathVariable int id) throws IdIsIncorrectException {
-        if (id >= 0 && recipesService.isRecipesContainsId(id)) {
-            return ResponseEntity.ok(recipesService.getRecipe(id));
+        Recipe recipe = recipesService.getRecipe(id);
+        if (recipe != null) {
+            return ResponseEntity.ok(recipe);
         } else {
-            throw new IdIsIncorrectException("нет такого id или введенный id меньше 0!");
+            return ResponseEntity.notFound().build();
         }
     }
 

@@ -15,8 +15,8 @@ public class Recipe {
     @NonNull
     private int timeToSpend;
     @NonNull
-    List<Ingredient> ingredients;
+    private List<Ingredient> ingredients;
     @NonNull
-    Map<String, String> instructions;
+    private Map<String, String> instructions;
 
 }

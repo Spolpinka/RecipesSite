@@ -81,11 +81,12 @@ public class IngredientController {
      * @throws IdIsIncorrectException проверка id на входе
      */
     @GetMapping("/{id}")
-    public Ingredient getIngredient(@PathVariable int id) throws IdIsIncorrectException {
-        if (id > 0 && ingredientService.isIngresContainsId(id)) {
-            return ingredientService.getIngredient(id);
-        } else {
-            throw new IdIsIncorrectException("нет такого id или введенный id меньше 0!");
+    public ResponseEntity<Ingredient> getIngredient(@PathVariable int id) throws IdIsIncorrectException {
+        Ingredient ingredient = ingredientService.getIngredient(id);
+        if (ingredient != null) {
+            return ResponseEntity.ok(ingredient);
+        } else{
+            return ResponseEntity.notFound().build();
         }
     }
 
