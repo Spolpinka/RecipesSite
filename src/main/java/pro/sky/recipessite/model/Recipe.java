@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NonNull;
 
 import java.util.List;
+import java.util.Map;
 
 @Data
 @AllArgsConstructor
@@ -14,8 +15,8 @@ public class Recipe {
     @NonNull
     private int timeToSpend;
     @NonNull
-    List<Ingredient> ingredients;
+    private List<Ingredient> ingredients;
     @NonNull
-    List<String> instructions;
+    private Map<String, String> instructions;
 
 }

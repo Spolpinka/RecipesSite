@@ -12,5 +12,5 @@ public class Ingredient {
     @NonNull
     private int quantity;
     @NonNull
-    private String volume;
+    private String unit;
 }
