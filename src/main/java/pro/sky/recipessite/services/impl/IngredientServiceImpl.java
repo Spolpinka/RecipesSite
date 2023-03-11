@@ -4,7 +4,6 @@ import org.springframework.stereotype.Service;
 import pro.sky.recipessite.model.Ingredient;
 import pro.sky.recipessite.services.IngredientService;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -19,6 +18,7 @@ public class IngredientServiceImpl implements IngredientService {
         ingredients.put(++id, ingredient);
         return id;
     }
+
     @Override
     public String addIngredientArray(Ingredient[] newIngredients) {
         String ids = "";
