@@ -1,5 +1,6 @@
 package pro.sky.recipessite.controllers;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pro.sky.recipessite.model.Ingredient;
@@ -14,6 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/recipe")
+@Tag(name = "Рецепты", description = "работа с рецептами: добавление, редактирование, получение, удаление")
 public class RecipeController {
     private final RecipesService recipesService;
 

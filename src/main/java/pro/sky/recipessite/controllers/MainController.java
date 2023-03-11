@@ -1,9 +1,11 @@
 package pro.sky.recipessite.controllers;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@Tag(name = "Основной метод", description = "просто для общего вывода (временный?)")
 public class MainController {
     @GetMapping
     public String mainMethod() {

@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pro.sky.recipessite.controllers.exceptions.IdIsIncorrectException;
@@ -18,6 +19,7 @@ import java.util.Collection;
 
 @RestController
 @RequestMapping("/ingredients")
+@Tag(name = "Ингридиенты", description = "работа с ингридиентами: добавление, редактирование, получение, удаление")
 public class IngredientController {
     private final IngredientService ingredientService;
 
