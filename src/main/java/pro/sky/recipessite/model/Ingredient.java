@@ -1,5 +1,6 @@
 package pro.sky.recipessite.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.NonNull;
 import org.apache.commons.lang3.StringUtils;
@@ -9,12 +10,16 @@ import pro.sky.recipessite.controllers.exceptions.UnitIncorrectException;
 
 
 @Data
+@Schema(description = "Сущность Ингредиент")
 public class Ingredient {
     @NonNull
+    @Schema(description = "Наименование ингредиента")
     private String name;
     @NonNull
+    @Schema(description = "Количество ингредиента")
     private int quantity;
     @NonNull
+    @Schema(description = "Единицы измерения для количества")
     private String unit;
 
     public Ingredient(@NonNull String name, @NonNull int quantity, @NonNull String unit)

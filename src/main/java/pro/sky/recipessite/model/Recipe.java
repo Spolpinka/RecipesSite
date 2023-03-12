@@ -1,6 +1,6 @@
 package pro.sky.recipessite.model;
 
-import lombok.AllArgsConstructor;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.NonNull;
 import org.apache.commons.lang3.StringUtils;
@@ -13,14 +13,19 @@ import java.util.List;
 import java.util.Map;
 
 @Data
+@Schema(description = "Сущность Рецепт")
 public class Recipe {
     @NonNull
+    @Schema(description = "Наименование рецепта")
     private String name;
     @NonNull
+    @Schema(description = "Время, нужное для приготовления")
     private int timeToSpend;
     @NonNull
+    @Schema(description = "Список ингредиентов")
     private List<Ingredient> ingredients;
     @NonNull
+    @Schema(description = "Инструкции по приготовлению")
     private Map<String, String> instructions;
 
     public Recipe(@NonNull String name, @NonNull int timeToSpend, @NonNull List<Ingredient> ingredients,
