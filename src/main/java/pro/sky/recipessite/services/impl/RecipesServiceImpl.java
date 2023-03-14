@@ -1,18 +1,37 @@
 package pro.sky.recipessite.services.impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 import pro.sky.recipessite.model.Ingredient;
 import pro.sky.recipessite.model.Recipe;
+import pro.sky.recipessite.services.FilesService;
+import pro.sky.recipessite.services.IngredientService;
 import pro.sky.recipessite.services.RecipesService;
 
+import javax.annotation.PostConstruct;
 import java.util.*;
 
 @Service
 public class RecipesServiceImpl implements RecipesService {
     private static int id = 0;
-    IngredientServiceImpl ingredientService = new IngredientServiceImpl();
+
+    private final FilesService filesService;
+    private IngredientService ingredientService;
 
     private static Map<Integer, Recipe> recipes = new HashMap<>();
+
+    public RecipesServiceImpl(FilesService filesService, IngredientService ingredientService) {
+        this.filesService = filesService;
+        this.ingredientService = ingredientService;
+    }
+
+    @PostConstruct
+    private void init() {
+        readFromFile();
+    }
+
     @Override
     public String addRecipe(Recipe[] newRecipes) {
         String ids = "";
@@ -23,6 +42,7 @@ public class RecipesServiceImpl implements RecipesService {
             }
             ids += id + ", ";
         }
+        saveToFile();
         return ids;
     }
 
@@ -30,6 +50,7 @@ public class RecipesServiceImpl implements RecipesService {
     public Recipe editRecipeById(int id, Recipe recipe) {
         if (recipes.containsKey(id)) {
             recipes.put(id, recipe);
+            saveToFile();
             return recipe;
         } else {
             return null;
@@ -39,7 +60,9 @@ public class RecipesServiceImpl implements RecipesService {
     @Override
     public Recipe deleteRecipeById(int id) {
         if (recipes.containsKey(id)) {
-            return recipes.remove(id);
+            Recipe r = recipes.remove(id);
+            saveToFile();
+            return r;
         } else {
             return null;
         }
@@ -106,4 +129,24 @@ public class RecipesServiceImpl implements RecipesService {
             return null;
         }
     }
+
+    private void saveToFile() {
+        try {
+            String s = new ObjectMapper().writeValueAsString(recipes);
+            filesService.saveRecipes(s);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void readFromFile() {
+        try {
+            recipes = new ObjectMapper().readValue(filesService.readRecipes(),
+                    new TypeReference<HashMap<Integer, Recipe>>() {
+                    });
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

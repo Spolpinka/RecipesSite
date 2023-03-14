@@ -2,6 +2,7 @@ package pro.sky.recipessite.model;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import org.apache.commons.lang3.StringUtils;
 import pro.sky.recipessite.controllers.exceptions.NameIncorrectException;
@@ -11,6 +12,7 @@ import pro.sky.recipessite.controllers.exceptions.UnitIncorrectException;
 
 @Data
 @Schema(description = "Сущность Ингредиент")
+@NoArgsConstructor
 public class Ingredient {
     @NonNull
     @Schema(description = "Наименование ингредиента")

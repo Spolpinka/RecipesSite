@@ -2,6 +2,7 @@ package pro.sky.recipessite.model;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import org.apache.commons.lang3.StringUtils;
 import pro.sky.recipessite.controllers.exceptions.IngredientListIncorrectException;
@@ -14,6 +15,7 @@ import java.util.Map;
 
 @Data
 @Schema(description = "Сущность Рецепт")
+@NoArgsConstructor
 public class Recipe {
     @NonNull
     @Schema(description = "Наименование рецепта")
