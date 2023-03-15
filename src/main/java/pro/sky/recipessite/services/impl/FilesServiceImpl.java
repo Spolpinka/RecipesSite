@@ -1,12 +1,13 @@
 package pro.sky.recipessite.services.impl;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 import pro.sky.recipessite.services.FilesService;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-
+@Service
 public class FilesServiceImpl implements FilesService {
     @Value("${path.to.files}")
     private String filesPath;
@@ -43,12 +44,22 @@ public class FilesServiceImpl implements FilesService {
 
     @Override
     public String readIngredients() {
-        return "";
+        try {
+            return Files.readString(Path.of(filesPath, ingredientFileName));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
     public String readRecipes() {
-        return "";
+        try {
+            return Files.readString(Path.of(filesPath, recipesFileName));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     private boolean cleanFile(Path path) {
