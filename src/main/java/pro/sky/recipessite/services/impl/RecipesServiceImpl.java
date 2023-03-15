@@ -27,7 +27,7 @@ public class RecipesServiceImpl implements RecipesService {
         this.ingredientService = ingredientService;
     }
 
-    //@PostConstruct
+    @PostConstruct
     private void init() {
         readFromFile();
     }
