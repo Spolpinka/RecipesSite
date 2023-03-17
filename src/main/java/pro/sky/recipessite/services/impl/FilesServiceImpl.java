@@ -4,9 +4,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import pro.sky.recipessite.services.FilesService;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+
 @Service
 public class FilesServiceImpl implements FilesService {
     @Value("${path.to.files}")
@@ -62,7 +64,19 @@ public class FilesServiceImpl implements FilesService {
         }
     }
 
-    private boolean cleanFile(Path path) {
+    @Override
+    public File getRecipesFile() {
+        return new File(filesPath + "/" + recipesFileName);
+    }
+
+    @Override
+    public File getIngredientsFile() {
+        return new File(filesPath + "/" + ingredientFileName);
+    }
+
+
+    @Override
+    public boolean cleanFile(Path path) {
         try {
             Files.deleteIfExists(path);
             Files.createFile(path);
