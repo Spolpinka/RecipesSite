@@ -1,6 +1,7 @@
 package pro.sky.recipessite.services;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -19,5 +20,11 @@ public interface FilesService {
 
     File getIngredientsFile();
 
-    boolean cleanFile(Path path);
+    boolean uploadIngredientFile(MultipartFile file);
+
+    boolean uploadRecipeFile(MultipartFile file);
+
+    boolean cleanRecipeFile();
+
+    boolean cleanIngredientFile();
 }

@@ -1,10 +1,13 @@
 package pro.sky.recipessite.services.impl;
 
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import pro.sky.recipessite.services.FilesService;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -18,12 +21,14 @@ public class FilesServiceImpl implements FilesService {
     @Value("${name.of.recipes.file}")
     private String recipesFileName;
 
+    private final Path recipePath = Path.of(filesPath, recipesFileName);
+    private final Path ingredientPath = Path.of(filesPath, ingredientFileName);
+
     @Override
     public boolean saveIngredients(String json) {
-        Path path = Path.of(filesPath, ingredientFileName);
         try {
-            cleanFile(path);
-            Files.writeString(path, json);
+            cleanIngredientFile();
+            Files.writeString(ingredientPath, json);
             return true;
         } catch (IOException e) {
             e.printStackTrace();
@@ -33,10 +38,9 @@ public class FilesServiceImpl implements FilesService {
 
     @Override
     public boolean saveRecipes(String json) {
-        Path path = Path.of(filesPath, recipesFileName);
         try {
-            cleanFile(path);
-            Files.writeString(path, json);
+            cleanRecipeFile();
+            Files.writeString(recipePath, json);
             return true;
         } catch (IOException e) {
             e.printStackTrace();
@@ -47,7 +51,7 @@ public class FilesServiceImpl implements FilesService {
     @Override
     public String readIngredients() {
         try {
-            return Files.readString(Path.of(filesPath, ingredientFileName));
+            return Files.readString(ingredientPath);
         } catch (IOException e) {
             e.printStackTrace();
             return null;
@@ -57,7 +61,7 @@ public class FilesServiceImpl implements FilesService {
     @Override
     public String readRecipes() {
         try {
-            return Files.readString(Path.of(filesPath, recipesFileName));
+            return Files.readString(recipePath);
         } catch (IOException e) {
             e.printStackTrace();
             return null;
@@ -76,10 +80,56 @@ public class FilesServiceImpl implements FilesService {
 
 
     @Override
-    public boolean cleanFile(Path path) {
+    public boolean uploadIngredientFile(MultipartFile file) {
+        if (cleanIngredientFile()) {
+            System.out.println("Очистка прошла успешно");
+        } else {
+            System.out.println("Что-то с очисткой не задалось...");
+        }
+        File dataFile = getIngredientsFile();
+        try (FileOutputStream fos = new FileOutputStream(dataFile)) {
+            IOUtils.copy(file.getInputStream(), fos);
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    public boolean uploadRecipeFile(MultipartFile file) {
+        if (cleanRecipeFile()) {
+            System.out.println("Очистка прошла успешно");
+        } else {
+            System.out.println("Что-то с очисткой не задалось...");
+        }
+        File dataFile = getRecipesFile();
+        try (FileOutputStream fos = new FileOutputStream(dataFile)) {
+            IOUtils.copy(file.getInputStream(), fos);
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    public boolean cleanRecipeFile() {
         try {
-            Files.deleteIfExists(path);
-            Files.createFile(path);
+            Files.deleteIfExists(recipePath);
+            Files.createFile(recipePath);
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    public boolean cleanIngredientFile() {
+        try {
+            Files.deleteIfExists(ingredientPath);
+            Files.createFile(ingredientPath);
             return true;
         } catch (IOException e) {
             e.printStackTrace();
