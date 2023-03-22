@@ -27,4 +27,6 @@ public interface FilesService {
     boolean cleanRecipeFile();
 
     boolean cleanIngredientFile();
+
+    Path createTempFile(String suffix);
 }

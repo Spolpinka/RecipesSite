@@ -55,4 +55,25 @@ public class Recipe {
             throw new InstructionsIncorrectException("введ пустой список инструкций по приготовлению");
         }
     }
+
+    public String getIngredientsToString() {
+        String result = "";
+        for (Ingredient ingredient :
+                ingredients) {
+            result.concat("- ")
+                    .concat(ingredient.getName())
+                    .concat(" - ")
+                    .concat(ingredient.getQuantity()+" ")
+                    .concat(ingredient.getUnit());
+        }
+        return result;
+    }
+
+    public String getInstructionsToString() {
+        String result = "";
+        for (Map.Entry<String, String> entry : instructions.entrySet()) {
+            result.concat(entry.getKey()+". ").concat(entry.getValue()+"\n");
+        }
+        return result;
+    }
 }

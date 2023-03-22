@@ -113,6 +113,10 @@ public class FilesServiceImpl implements FilesService {
         }
     }
 
+    /**
+     * очищаем файл базы данных рецептов
+     * @return boolean очищено или нет
+     */
     @Override
     public boolean cleanRecipeFile() {
         try {
@@ -125,6 +129,10 @@ public class FilesServiceImpl implements FilesService {
         }
     }
 
+    /**
+     * очищаем файл базы данных ингридиентов
+     * @return boolean прошла очистка или нет
+     */
     @Override
     public boolean cleanIngredientFile() {
         try {
@@ -134,6 +142,21 @@ public class FilesServiceImpl implements FilesService {
         } catch (IOException e) {
             e.printStackTrace();
             return false;
+        }
+    }
+
+    /**
+     * создаем временный файл для выгрузки нужных данных
+     * @param suffix файла
+     * @return путь к временному файлу, чтобы открывать входящий в файл поток
+     */
+    @Override
+    public Path createTempFile(String suffix) {
+        try {
+            return Files.createTempFile(Path.of(filesPath), "tempFile", suffix);
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException();
         }
     }
 

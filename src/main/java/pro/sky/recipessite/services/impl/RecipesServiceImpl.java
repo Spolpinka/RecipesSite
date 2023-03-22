@@ -11,6 +11,11 @@ import pro.sky.recipessite.services.IngredientService;
 import pro.sky.recipessite.services.RecipesService;
 
 import javax.annotation.PostConstruct;
+import java.io.IOException;
+import java.io.Writer;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.util.*;
 
 @Service
@@ -35,7 +40,7 @@ public class RecipesServiceImpl implements RecipesService {
     @Override
     public String addRecipe(Recipe[] newRecipes) {
         String ids = "";
-        for (Recipe recipe: newRecipes) {
+        for (Recipe recipe : newRecipes) {
             recipes.put(++id, recipe);
             for (Ingredient ingredient : recipe.getIngredients()) {
                 ingredientService.addIngredient(ingredient);
@@ -69,8 +74,8 @@ public class RecipesServiceImpl implements RecipesService {
     }
 
     @Override
-    public Recipe getRecipe(int id){
-            return recipes.get(id);
+    public Recipe getRecipe(int id) {
+        return recipes.get(id);
     }
 
     @Override
@@ -101,7 +106,7 @@ public class RecipesServiceImpl implements RecipesService {
         List<Recipe> result = new ArrayList<>();
         List<Ingredient> ingrsForSeaching = Arrays.stream(ingredients).toList();
         for (Recipe recipe : recipes.values()) {
-            if (recipe.getIngredients().containsAll(ingrsForSeaching)){
+            if (recipe.getIngredients().containsAll(ingrsForSeaching)) {
                 result.add(recipe);
             }
         }
@@ -118,7 +123,7 @@ public class RecipesServiceImpl implements RecipesService {
             List<Recipe> tempList = new ArrayList<>(countOfPcs);
             for (int i = 0; i < recipesValues.size(); i++) {
                 tempList.add(recipesValues.get(i));
-                if (tempList.size() == countOfPcs){
+                if (tempList.size() == countOfPcs) {
                     result.put(countOfPages, tempList);
                     tempList = new ArrayList<>(countOfPcs);
                     countOfPages++;
@@ -128,6 +133,25 @@ public class RecipesServiceImpl implements RecipesService {
         } else {
             return null;
         }
+    }
+
+    @Override
+    public Path getAllRecipesInFile() {
+        Path path = filesService.createTempFile("allRecipesBase");
+        for (Recipe recipe :
+                recipes.values()) {
+            try (Writer writer = Files.newBufferedWriter(path, StandardOpenOption.APPEND)) {
+                writer.append(recipe.getName() + "\n")
+                        .append("Время приготовления: " + recipe.getTimeToSpend() + " минут.\n")
+                        .append("Ингридиенты:\n")
+                        .append(recipe.getIngredientsToString() + "\n")
+                        .append("Инструкция по приготовлению:\n")
+                        .append(recipe.getInstructionsToString());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return path;
     }
 
     private void saveToFile() {
@@ -148,5 +172,4 @@ public class RecipesServiceImpl implements RecipesService {
             e.printStackTrace();
         }
     }
-
 }
