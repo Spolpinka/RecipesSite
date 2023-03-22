@@ -421,6 +421,28 @@ public class RecipeController {
     }
 
     @GetMapping("/exportTxt")
+    @Operation(
+            summary = "выгрузка всей базы рецептов",
+            description = "выгружаем все рецепты в txt в удобочитаемом виде"
+    )
+    @ApiResponses(
+            value = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "рецепты найдены и выгружены",
+                            content = {
+                                    @Content(
+                                            mediaType = "application/json",
+                                            array = @ArraySchema(schema = @Schema(implementation = Recipe.class))
+                                    )
+                            }
+                    ),
+                    @ApiResponse(
+                            responseCode = "500",
+                            description = "рецепты не найдены"
+                    )
+            }
+    )
     public ResponseEntity<Object> getRecipesInTxt() {
         try {
             Path path = recipesService.getAllRecipesInFile();
