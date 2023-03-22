@@ -23,7 +23,7 @@ public class RecipesServiceImpl implements RecipesService {
     private static int id = 0;
 
     private final FilesService filesService;
-    private IngredientService ingredientService;
+    private final IngredientService ingredientService;
 
     private static Map<Integer, Recipe> recipes = new HashMap<>();
 
@@ -39,16 +39,16 @@ public class RecipesServiceImpl implements RecipesService {
 
     @Override
     public String addRecipe(Recipe[] newRecipes) {
-        String ids = "";
+        StringBuilder ids = new StringBuilder();
         for (Recipe recipe : newRecipes) {
             recipes.put(++id, recipe);
             for (Ingredient ingredient : recipe.getIngredients()) {
                 ingredientService.addIngredient(ingredient);
             }
-            ids += id + ", ";
+            ids.append(id).append(", ");
         }
         saveToFile();
-        return ids;
+        return ids.toString();
     }
 
     @Override
@@ -141,12 +141,12 @@ public class RecipesServiceImpl implements RecipesService {
         for (Recipe recipe :
                 recipes.values()) {
             try (Writer writer = Files.newBufferedWriter(path, StandardOpenOption.APPEND)) {
-                writer.append(recipe.getName() + "\n")
+                writer.append(recipe.getName()).append("\n")
                         .append("Время приготовления: " + recipe.getTimeToSpend() + " минут.\n")
                         .append("Ингридиенты:\n")
                         .append(recipe.getIngredientsToString() + "\n")
                         .append("Инструкция по приготовлению:\n")
-                        .append(recipe.getInstructionsToString());
+                        .append(recipe.getInstructionsToString() + "\n");
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

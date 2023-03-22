@@ -52,7 +52,7 @@ public class Recipe {
         if (!instructions.isEmpty()) {
             this.instructions = instructions;
         } else {
-            throw new InstructionsIncorrectException("введ пустой список инструкций по приготовлению");
+            throw new InstructionsIncorrectException("введен пустой список инструкций по приготовлению");
         }
     }
 
@@ -60,11 +60,9 @@ public class Recipe {
         String result = "";
         for (Ingredient ingredient :
                 ingredients) {
-            result.concat("- ")
-                    .concat(ingredient.getName())
-                    .concat(" - ")
-                    .concat(ingredient.getQuantity()+" ")
-                    .concat(ingredient.getUnit());
+            result += "- " + ingredient.getName() + " - "
+                    + (ingredient.getQuantity() == 0 ? "" : ingredient.getQuantity())+ " "
+                    + ingredient.getUnit() + "\n";
         }
         return result;
     }
@@ -72,7 +70,7 @@ public class Recipe {
     public String getInstructionsToString() {
         String result = "";
         for (Map.Entry<String, String> entry : instructions.entrySet()) {
-            result.concat(entry.getKey()+". ").concat(entry.getValue()+"\n");
+            result += entry.getKey() + ". " + entry.getValue() + "\n";
         }
         return result;
     }

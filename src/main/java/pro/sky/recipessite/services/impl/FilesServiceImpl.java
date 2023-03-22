@@ -1,5 +1,6 @@
 package pro.sky.recipessite.services.impl;
 
+import lombok.NoArgsConstructor;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -21,14 +22,11 @@ public class FilesServiceImpl implements FilesService {
     @Value("${name.of.recipes.file}")
     private String recipesFileName;
 
-    private final Path recipePath = Path.of(filesPath, recipesFileName);
-    private final Path ingredientPath = Path.of(filesPath, ingredientFileName);
-
     @Override
     public boolean saveIngredients(String json) {
         try {
             cleanIngredientFile();
-            Files.writeString(ingredientPath, json);
+            Files.writeString(Path.of(filesPath, ingredientFileName), json);
             return true;
         } catch (IOException e) {
             e.printStackTrace();
@@ -40,7 +38,7 @@ public class FilesServiceImpl implements FilesService {
     public boolean saveRecipes(String json) {
         try {
             cleanRecipeFile();
-            Files.writeString(recipePath, json);
+            Files.writeString(Path.of(filesPath, recipesFileName), json);
             return true;
         } catch (IOException e) {
             e.printStackTrace();
@@ -51,7 +49,7 @@ public class FilesServiceImpl implements FilesService {
     @Override
     public String readIngredients() {
         try {
-            return Files.readString(ingredientPath);
+            return Files.readString(Path.of(filesPath, ingredientFileName));
         } catch (IOException e) {
             e.printStackTrace();
             return null;
@@ -61,7 +59,7 @@ public class FilesServiceImpl implements FilesService {
     @Override
     public String readRecipes() {
         try {
-            return Files.readString(recipePath);
+            return Files.readString(Path.of(filesPath, recipesFileName));
         } catch (IOException e) {
             e.printStackTrace();
             return null;
@@ -120,8 +118,8 @@ public class FilesServiceImpl implements FilesService {
     @Override
     public boolean cleanRecipeFile() {
         try {
-            Files.deleteIfExists(recipePath);
-            Files.createFile(recipePath);
+            Files.deleteIfExists(Path.of(filesPath, recipesFileName));
+            Files.createFile(Path.of(filesPath, recipesFileName));
             return true;
         } catch (IOException e) {
             e.printStackTrace();
@@ -136,8 +134,8 @@ public class FilesServiceImpl implements FilesService {
     @Override
     public boolean cleanIngredientFile() {
         try {
-            Files.deleteIfExists(ingredientPath);
-            Files.createFile(ingredientPath);
+            Files.deleteIfExists(Path.of(filesPath, ingredientFileName));
+            Files.createFile(Path.of(filesPath, ingredientFileName));
             return true;
         } catch (IOException e) {
             e.printStackTrace();
