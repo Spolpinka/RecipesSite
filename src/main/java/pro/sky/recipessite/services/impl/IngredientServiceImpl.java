@@ -19,6 +19,8 @@ public class IngredientServiceImpl implements IngredientService {
     private static Map<Integer, Ingredient> ingredients = new HashMap<>();
     private final FilesService filesService;
 
+    private final ObjectMapper objectMapper = new ObjectMapper();
+
    public IngredientServiceImpl(FilesService filesService) {
         this.filesService = filesService;
     }
@@ -85,7 +87,7 @@ public class IngredientServiceImpl implements IngredientService {
 
     private void saveToFile() {
         try {
-            String s = new ObjectMapper().writeValueAsString(ingredients);
+            String s = objectMapper.writeValueAsString(ingredients);
             filesService.saveIngredients(s);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
@@ -94,7 +96,7 @@ public class IngredientServiceImpl implements IngredientService {
 
     private void readFromFile() {
         try {
-            ingredients = new ObjectMapper().readValue(filesService.readIngredients(),
+            ingredients = objectMapper.readValue(filesService.readIngredients(),
                     new TypeReference<HashMap<Integer, Ingredient>>() {
                     });
         } catch (JsonProcessingException e) {

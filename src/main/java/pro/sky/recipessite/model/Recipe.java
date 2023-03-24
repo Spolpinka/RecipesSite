@@ -52,7 +52,26 @@ public class Recipe {
         if (!instructions.isEmpty()) {
             this.instructions = instructions;
         } else {
-            throw new InstructionsIncorrectException("введ пустой список инструкций по приготовлению");
+            throw new InstructionsIncorrectException("введен пустой список инструкций по приготовлению");
         }
+    }
+
+    public String getIngredientsToString() {
+        String result = "";
+        for (Ingredient ingredient :
+                ingredients) {
+            result += "- " + ingredient.getName() + " - "
+                    + (ingredient.getQuantity() == 0 ? "" : ingredient.getQuantity())+ " "
+                    + ingredient.getUnit() + "\n";
+        }
+        return result;
+    }
+
+    public String getInstructionsToString() {
+        String result = "";
+        for (Map.Entry<String, String> entry : instructions.entrySet()) {
+            result += entry.getKey() + ". " + entry.getValue() + "\n";
+        }
+        return result;
     }
 }
