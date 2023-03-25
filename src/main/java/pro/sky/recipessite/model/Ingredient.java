@@ -21,7 +21,7 @@ public class Ingredient {
     @Schema(description = "Количество ингредиента")
     private int quantity;
     @NonNull
-    @Schema(description = "Единицы измерения для количества")
+    @Schema(description = "Единицы измерения для количества (шт., ст.л., ч.л. и т.п.")
     private String unit;
 
     public Ingredient(@NonNull String name, @NonNull int quantity, @NonNull String unit)
