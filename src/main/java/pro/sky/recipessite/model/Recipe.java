@@ -27,7 +27,7 @@ public class Recipe {
     @Schema(description = "Список ингредиентов")
     private List<Ingredient> ingredients;
     @NonNull
-    @Schema(description = "Инструкции по приготовлению")
+    @Schema(description = "Инструкции по приготовлению (в виде MAP \"1\":\"инструкция\"")
     private Map<String, String> instructions;
 
     public Recipe(@NonNull String name, @NonNull int timeToSpend, @NonNull List<Ingredient> ingredients,
