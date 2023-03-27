@@ -24,7 +24,7 @@ public class Recipe {
     @Schema(description = "Время, нужное для приготовления")
     private int timeToSpend;
     @NonNull
-    @Schema(description = "Список ингредиентов")
+    @Schema(description = "Список ингредиентов в виде простого списка объектов Ingredient")
     private List<Ingredient> ingredients;
     @NonNull
     @Schema(description = "Инструкции по приготовлению (в виде MAP \"1\":\"инструкция\"")
