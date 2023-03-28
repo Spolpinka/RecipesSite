@@ -21,7 +21,7 @@ public class Recipe {
     @Schema(description = "Наименование рецепта")
     private String name;
     @NonNull
-    @Schema(description = "Время, нужное для приготовления")
+    @Schema(description = "Время, нужное для приготовления блюда")
     private int timeToSpend;
     @NonNull
     @Schema(description = "Список ингредиентов в виде простого списка объектов Ingredient")
