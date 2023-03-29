@@ -32,6 +32,9 @@ public class RecipesServiceImpl implements RecipesService {
         this.ingredientService = ingredientService;
     }
 
+    /**
+     * ВАЖНО!!! метод по загрузке данных из файла при запуске программы
+     */
     @PostConstruct
     private void init() {
         readFromFile();
