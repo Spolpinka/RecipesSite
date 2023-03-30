@@ -15,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import pro.sky.recipessite.model.Recipe;
 import pro.sky.recipessite.services.FilesService;
 
 import java.io.*;
@@ -41,7 +42,7 @@ public class FilesController {
                             content = {
                                     @Content(
                                             mediaType = "application/json",
-                                            array = @ArraySchema(schema = @Schema(implementation = File.class))
+                                            array = @ArraySchema(schema = @Schema(implementation = Recipe.class))
                                     )
                             }
                     ),
